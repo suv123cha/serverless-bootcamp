@@ -27,7 +27,7 @@ export async function getAuctionById(id) {
     return auctions;
 }
 
-async function getAuctions(event, context) {
+async function getAuction(event, context) {
     const { id } = event.pathParameters;
     const auctions = await getAuctionById(id);
     return {
@@ -36,4 +36,4 @@ async function getAuctions(event, context) {
     };
 }
 
-export const handler = middleware(getAuctions);
+export const handler = middleware(getAuction);
