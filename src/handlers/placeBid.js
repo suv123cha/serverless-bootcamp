@@ -4,6 +4,7 @@ import middleware from '../lib/middleware';
 import createError from 'http-errors';
 
 import { getAuctionById } from './getAuction';
+import placeBidSchema from '../lib/schemas/placeBidSchema';
 
 
 const dynamoDB = new AWS.DynamoDB.DocumentClient();
@@ -47,4 +48,5 @@ async function placeBid(event, context) {
     };
 }
 
-export const handler = middleware(placeBid);
+export const handler = middleware(placeBid)
+    .use(validator({ inputSchema: placeBidSchema }));
