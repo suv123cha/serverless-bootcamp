@@ -2,10 +2,7 @@ import { v4 as uuid } from 'uuid';
 import AWS from 'aws-sdk';
 
 //middleware
-import middy from '@middy/core';
-import httpJsonBodyParser from  '@middy/http-json-body-parser';
-import httpEventNormalizer from '@middy/http-event-normalizer';
-import httpErrorHandler from '@middy/http-error-handler';
+import middleware from '../lib/middleware';
 import createError from 'http-errors';
 
 
@@ -19,6 +16,9 @@ async function createAuction(event, context) {
         id: uuid(),
         title,
         status: 'OPEN',
+        highestBid: {
+            amount: 0,
+        },
         createdAT: now.toISOString()
     };
 
@@ -43,7 +43,4 @@ async function createAuction(event, context) {
     };
 }
 
-export const handler = middy(createAuction)
-    .use(httpJsonBodyParser())
-    .use(httpEventNormalizer())
-    .use(httpErrorHandler());
+export const handler = middleware(createAuction);
