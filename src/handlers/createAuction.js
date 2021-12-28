@@ -22,7 +22,7 @@ async function createAuction(event, context) {
             amount: 0,
         },
         createdAT: now.toISOString(),
-        endendAT: endDate.toISOString()
+        endingAt: endDate.toISOString()
     };
 
     try 
