@@ -3,14 +3,10 @@ import AWS from 'aws-sdk';
 import middleware from '../lib/middleware';
 import createError from 'http-errors';
 
-
 const dynamoDB = new AWS.DynamoDB.DocumentClient();
 
-async function getAuctions(event, context) {
+export async function getAuctionById(id) {
     let auctions;
-
-    const { id } = event.pathParameters;
-
     try {
         const results = await dynamoDB.get(
             {
@@ -28,6 +24,12 @@ async function getAuctions(event, context) {
         throw new createError.NotFound(`Auctions with ID "${id}" not found!`);
     }
 
+    return auctions;
+}
+
+async function getAuctions(event, context) {
+    const { id } = event.pathParameters;
+    const auctions = await getAuctionById(id);
     return {
       statusCode: 200,
       body: JSON.stringify({ response: auctions }),
