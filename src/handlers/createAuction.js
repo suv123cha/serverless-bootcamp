@@ -13,6 +13,8 @@ const dynamoDB = new AWS.DynamoDB.DocumentClient();
 
 async function createAuction(event, context) {
     const { title } = event.body;
+    const { email } = event.requestContext.authorizer;
+
     const now = new Date();
     const endDate = new Date();
     endDate.setHours(now.getHours() + 1)
@@ -20,6 +22,7 @@ async function createAuction(event, context) {
     let action = {
         id: uuid(),
         title,
+        seller: email,
         status: 'OPEN',
         highestBid: {
             amount: 0,
